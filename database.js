@@ -12,7 +12,6 @@ console.log("database.PASSWORD=",PASSWORD);
 console.log("database.DATABASE=",DATABASE);
 
 
-
 const pool = mysql.createPool({
 	host:		HOST		,
 	user:		USER		,
