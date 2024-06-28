@@ -37,7 +37,7 @@ const options = {
     apis: ["./routes/*.js"],
 };
 
-const  spacs = swaggerjsdoc(options)
+const spacs = swaggerjsdoc(options)
 app.use(
     "/api-doc",
     swaggerui.serve,
@@ -48,7 +48,12 @@ const environmental_Data_rtr = require('./routes/environmental');
 app.use('/Data', environmental_Data_rtr);
 
 
+const arduino_rtr = require('./routes/arduino');
+app.use('/arduino', arduino_rtr);
 
+
+const LastUpdate_rtr = require('./routes/LastUpdate');
+app.use('/LastUpdate', LastUpdate_rtr);
 
 app.listen(port, () => {            //server starts listening for any attempts from a client to connect at port: {port}
     console.log(`Now listening on port http://localhost:${port}`);
