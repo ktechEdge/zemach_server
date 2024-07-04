@@ -1,14 +1,43 @@
+/**
+ * @swagger
+ * /environmental-data:
+ *   post:
+ *     summary: Create a new record
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               device_id:
+ *                 type: integer
+ *               uv_radiation:
+ *                 type: number
+ *               light:
+ *                 type: number
+ *               air_temperature:
+ *                 type: number
+ *               air_humidity:
+ *                 type: number
+ *               soil_humidity:
+ *                 type: number
+ *               measurement_date:
+ *                 type: string
+ *                 format: date-time
+ *     responses:
+ *       201:
+ *         description: Record added successfully
+ *       500:
+ *         description: Error executing the query
+ */
+
+
+
 const express = require('express');
 const router = express.Router()
 module.exports = router;
 
-
-let lastUpdated = new Date(); // זמן התחלה
-
-// פונקציה שמעדכנת את הזמן האחרון
-function updateLastUpdated() {
-    lastUpdated = new Date();
-}
 
 // פונקציה שבודקת אם עברו יותר מ-10 דקות מאז העדכון האחרון
 function checkIfTenMinutesPassed() {
@@ -103,21 +132,4 @@ router.delete('/:id', (req, res) => {
 });
 
 
-router.get('/check-update', (req, res) => {
-    const query = `SELECT * FROM environmental_data 
-                   WHERE TIMESTAMPDIFF(MINUTE, last_updated, NOW()) > 10`;
-
-    db_pool.query(query, (error, results) => {
-        if (error) {
-            console.error(error);
-            res.status(500).send('Error executing query');
-        } else {
-            if (results.length > 0) {
-                res.send('More than 10 minutes have passed since the last update');
-            } else {
-                res.send('Last update was within the last 10 minutes');
-            }
-        }
-    });
-});
 
