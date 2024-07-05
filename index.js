@@ -19,19 +19,24 @@ app.use(express.static(path.join(__dirname, "js")));
 var db_M = require('./database');
 global.db_pool = db_M.pool;
 
-// Swagger definition
+// הגדרות Swagger
 const swaggerOptions = {
     swaggerDefinition: {
         openapi: '3.0.0',
         info: {
-            title: 'Arduino API',
+            title: 'Environmental Monitoring API',
             version: '1.0.0',
+            description: 'API for managing environmental data and devices',
         },
+        servers: [
+            {
+                url: `http://localhost:${port}`,
+            },
+        ],
     },
-    apis: ['./routes/.js'], // Path to the API docs
+    apis: ['./routes/*.js'],
 };
 
-// Swagger docs setup
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
